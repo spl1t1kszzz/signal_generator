@@ -4,7 +4,7 @@
 void discrete_signal_config_validator::validate_config(json &config) {
     try {
         std::vector<std::string> params = {
-             "frequency", "x_min", "x_max", "x_delta", "p_min", "p_max", "p_delta", "b", "k"
+            "frequency", "x_min", "x_max", "x_delta", "p_min", "p_max", "p_delta", "b", "k"
         };
         for (const auto &param: params) {
             contains_param(config, param);
@@ -32,9 +32,9 @@ void discrete_signal_config_validator::validate_config(json &config) {
         if (p_delta < 0 and p_max < p_min) {
             throw std::invalid_argument("Для отрицательного шага p конец отрезка должен быть больше начала отрезка");
         }
-    } catch ([[maybe_unused]] json::exception &e) {
+    } catch (json::exception &e) {
         throw std::invalid_argument(std::string("Ошибка валидации конфигурации") + e.what());
-    } catch (std::invalid_argument &e) {
+    } catch ([[maybe_unused]] std::invalid_argument &e) {
         throw;
     }
 }

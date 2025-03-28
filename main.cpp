@@ -36,12 +36,16 @@ int main(int argc, char *argv[]) {
             const auto x_delta = cfg.get_x_delta();
             const auto x_min = cfg.get_x_min();
             const auto x_max = cfg.get_x_max();
+            double x;
             if (x_delta > 0) {
-                for (double x = x_min; x <= x_max; x += x_delta)
+                for (x = x_min; x <= x_max; x += x_delta)
                     x_vec.push_back(x);
             } else {
-                for (double x = x_min; x > x_max; x += x_delta)
+                for (x = x_min; x > x_max; x += x_delta)
                     x_vec.push_back(x);
+            }
+            if (std::abs(x - x_max) > std::numeric_limits<double>::epsilon()) {
+                x_vec.push_back(x);
             }
             try {
                 auto h = result_discrete_signal(a, cfg.get_frequency()).generate(
