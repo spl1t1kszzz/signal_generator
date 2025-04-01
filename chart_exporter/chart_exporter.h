@@ -4,6 +4,7 @@
 #include <iostream>
 // ReSharper disable once CppUnusedIncludeDirective
 #include <QtCharts>
+#include <filesystem>
 
 class chart_exporter {
 public:

@@ -14,7 +14,6 @@ int main(int argc, char *argv[]) {
     std::ifstream config_file_stream("../config.json");
     if (!config_file_stream.is_open()) {
         std::cerr << "Не удалось открыть файл с конфигурацией" << std::endl;
-        QApplication::quit();
         return EXIT_FAILURE;
     }
     json json_config;
@@ -23,7 +22,6 @@ int main(int argc, char *argv[]) {
         discrete_signal_config_validator::validate_config(json_config);
     } catch (const std::exception &e) {
         std::cerr << e.what() << std::endl;
-        QApplication::quit();
         return EXIT_FAILURE;
     }
     const config cfg(json_config);
@@ -50,12 +48,13 @@ int main(int argc, char *argv[]) {
             try {
                 auto h = result_discrete_signal(a, cfg.get_frequency()).generate(
                     x_min, x_max, x_delta);
-                csv_exporter::export_data(std::format("../data/h (a = {}).csv", a), x_vec, h);
-                chart_exporter::export_chart(std::format("../images/h (a = {}).png", a), x_vec, h);
+                csv_exporter::export_data(std::format("./data/h (a = {}).csv", a), x_vec, h);
+                chart_exporter::export_chart(std::format("./images/h (a = {}).png", a), x_vec, h);
             } catch (const std::exception &e) {
                 std::cerr << e.what() << std::endl;
+                return EXIT_FAILURE;
             }
         }
     }
-    return QApplication::exec();
+    return EXIT_SUCCESS;
 }
